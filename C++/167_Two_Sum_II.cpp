@@ -32,14 +32,31 @@ std::vector<int> Solution::twoSum(std::vector<int>& nums, int target) {
         unsigned int start = 0, end = nums.size() - 1;
         while( start != end){
             int sum = nums[start] + nums[end];
+            int mid = start + end;
             if(sum == target){
                 answer.push_back(start+1);
                 answer.push_back(end+1);
                 return answer;
             }else if(sum > target){
-                end--;
+                if(nums[mid] + nums[start] > target){
+                    end = --mid;
+                }else if(nums[mid] + nums[start] < target){
+                    while(nums[--end] + nums[start] > target){}
+                }else{
+                    answer.push_back(start+1);
+                    answer.push_back(mid+1);
+                    return answer;
+                }
             }else{
-                start++;
+                if(nums[mid] + nums[end] < target){
+                    start = ++mid;
+                }else if(nums[mid] + nums[start] < target){
+                    while(nums[++start] + nums[end] < target){}
+                }else{
+                    answer.push_back(end+1);
+                    answer.push_back(mid+1);
+                    return answer;
+                }
             }
         }
         // no solution found
